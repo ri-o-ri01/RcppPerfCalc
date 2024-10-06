@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # RcppPerfCalc
 
 `RcppPerfCalc` is an R package that provides high-performance financial
@@ -29,6 +23,14 @@ This package is ideal for users who need to process large financial
 datasets quickly and require efficient performance for real-time or
 large-scale applications.
 
+# Prerequisites
+
+To use this package, you need to install the following dependencies:
+
+``` r
+install.packages(c('Rcpp', 'PerformanceAnalytics', 'tidyverse', 'RcppArmadillo'))
+```
+
 ------------------------------------------------------------------------
 
 # Performance benchmarking
@@ -39,12 +41,22 @@ counterparts in the `PerformanceAnalytics` library. The goal was to
 confirm that the Rcpp implementations provide significant improvements
 in computational efficiency, especially for large datasets.
 
-We generated normally distributed return data with 6,000 data points
-(daily returns) and measured execution times using the `microbenchmark`
-library, running each test 10 times.
+To run the following benchmark examples, ensure you have the  `PerformanceAnalytics`, `microbenchmark` and `xts` packages installed:
 
 ``` r
+install.packages(c("PerformanceAnalytics", "microbenchmark", "xts"))
+```
+
+We generated normally distributed return data with 6,000 data points
+(daily returns) and measured execution times using the `microbenchmark`
+library, running each test 10 times. 
+
+``` r
+library(microbenchmark)
+library(xts)
+library(PerformanceAnalytics)
 x = rnorm(6000, 0.01, 0.01)
+
 ```
 
 In summary, the Rcpp implementations consistently outperformed the R

@@ -1,90 +1,71 @@
 # RcppPerfCalc
 
-`RcppPerfCalc` is an R package that provides high-performance financial
-calculation functions by utilizing C++ via the `Rcpp` and
-`RcppArmadillo` libraries. The package offers several key metrics, such
-as annualized return, annualized risk (standard deviation), annualized
-downside deviation, and maximum drawdown. These functions are
-implemented in C++ to significantly improve computational speed compared
-to their counterparts in the `PerformanceAnalytics` package.
+`RcppPerfCalc` is an R package that provides high-performance financial calculation functions by utilizing C++ via the `Rcpp` and `RcppArmadillo` libraries. The package offers several key metrics, such as annualized return, annualized risk (standard deviation), annualized downside deviation, and maximum drawdown. These functions are implemented in C++ to significantly improve computational speed compared to their counterparts in the `PerformanceAnalytics` package.
+
+# Installation
+
+You can install the `RcppPerfCalc` package directly from the GitHub release by running the following command:
+
+``` r
+install.packages("https://github.com/ri-o-ri01/RcppPerfCalc/releases/download/v0.1.0/RcppPerfCalc_0.1.0.tar.gz", 
+                 repos = NULL, type = "source")
+```
+
+This will install the package from the latest release on GitHub.
 
 # Features
 
--   **Annualized Return**: Efficiently computes the annualized return
-    for a series of returns.
--   **Annualized Risk**: Calculates the annualized standard deviation
-    (risk) of returns, offering faster performance.
--   **Annualized Downside Deviation**: Computes the downside risk of a
-    return series, based on deviations below a certain threshold.
--   **Maximum Drawdown (MDD)**: Quickly calculates the maximum observed
-    loss from a peak to a trough in a return series.
+-   **Annualized Return**: Efficiently computes the annualized return for a series of returns.
+-   **Annualized Risk**: Calculates the annualized standard deviation (risk) of returns, offering faster performance.
+-   **Annualized Downside Deviation**: Computes the downside risk of a return series, based on deviations below a certain threshold.
+-   **Maximum Drawdown (MDD)**: Quickly calculates the maximum observed loss from a peak to a trough in a return series.
 
-This package is ideal for users who need to process large financial
-datasets quickly and require efficient performance for real-time or
-large-scale applications.
+This package is ideal for users who need to process large financial datasets quickly and require efficient performance for real-time or large-scale applications.
 
 # Prerequisites
 
-To use this package, you need to install the following dependencies:
+Before using the package, make sure to install the following dependencies:
 
 ``` r
 install.packages(c('Rcpp', 'PerformanceAnalytics', 'tidyverse', 'RcppArmadillo'))
 ```
 
+These packages are required for `RcppPerfCalc` to function correctly.
+
 ------------------------------------------------------------------------
 
 # Performance benchmarking
 
-We conducted a performance benchmarking to compare the execution speed
-of the functions implemented in the `RcppPerfCalc` package against their
-counterparts in the `PerformanceAnalytics` library. The goal was to
-confirm that the Rcpp implementations provide significant improvements
-in computational efficiency, especially for large datasets.
+We conducted a performance benchmarking to compare the execution speed of the functions implemented in the `RcppPerfCalc` package against their counterparts in the `PerformanceAnalytics` library. The goal was to confirm that the Rcpp implementations provide significant improvements in computational efficiency, especially for large datasets.
 
-To run the following benchmark examples, ensure you have the  `PerformanceAnalytics`, `microbenchmark` and `xts` packages installed:
+To run the following benchmark examples, ensure you have the `PerformanceAnalytics`, `microbenchmark` and `xts` packages installed:
 
 ``` r
 install.packages(c("PerformanceAnalytics", "microbenchmark", "xts"))
 ```
 
-We generated normally distributed return data with 6,000 data points
-(daily returns) and measured execution times using the `microbenchmark`
-library, running each test 10 times. 
+We generated normally distributed return data with 6,000 data points (daily returns) and measured execution times using the `microbenchmark` library, running each test 10 times.
 
 ``` r
 library(microbenchmark)
 library(xts)
 library(PerformanceAnalytics)
 x = rnorm(6000, 0.01, 0.01)
-
 ```
 
-In summary, the Rcpp implementations consistently outperformed the R
-versions, especially for large datasets, confirming the benefits of C++
-optimization
+In summary, the Rcpp implementations consistently outperformed the R versions, especially for large datasets, confirming the benefits of C++ optimization
 
 ## Benchmark Results Interpretation
 
-The benchmark results compare the C++ (`cpp`) implementations in the
-`RcppPerfCalc` package with their R counterparts(`r`) in the
-`PerformanceAnalytics` library. Each result is measured in microseconds
-(µs). In all cases, the `cpp` implementations demonstrated significantly
-better performance compared to the R versions, particularly with large
-datasets.
+The benchmark results compare the C++ (`cpp`) implementations in the `RcppPerfCalc` package with their R counterparts(`r`) in the `PerformanceAnalytics` library. Each result is measured in microseconds (µs). In all cases, the `cpp` implementations demonstrated significantly better performance compared to the R versions, particularly with large datasets.
 
-For example, the `annualized_return` function in C++ (`cpp`) shows a
-minimum execution time of 7.4 µs, while the R equivalent(`r`) takes
-296.5 µs, showcasing a substantial improvement in speed. Similar trends
-are observed for all other functions, where `RcppPerfCalc` provides
-faster computation due to C++ optimizations.
+For example, the `annualized_return` function in C++ (`cpp`) shows a minimum execution time of 7.4 µs, while the R equivalent(`r`) takes 296.5 µs, showcasing a substantial improvement in speed. Similar trends are observed for all other functions, where `RcppPerfCalc` provides faster computation due to C++ optimizations.
 
 ------------------------------------------------------------------------
 
 ## Annualized Return
 
-The `annualized_return` function calculates the annualized return for a
-series of returns, compared here against
-`PerformanceAnalytics::Return.annualized`.
+The `annualized_return` function calculates the annualized return for a series of returns, compared here against `PerformanceAnalytics::Return.annualized`.
 
 ``` r
 benchmark <- microbenchmark(
@@ -104,9 +85,7 @@ benchmark
 
 ## Annualized Risk
 
-The `annualized_sd` function calculates the annualized standard
-deviation (risk), compared here against
-`PerformanceAnalytics::sd.annualized`.
+The `annualized_sd` function calculates the annualized standard deviation (risk), compared here against `PerformanceAnalytics::sd.annualized`.
 
 ``` r
 benchmark <- microbenchmark(
@@ -126,9 +105,7 @@ benchmark
 
 ## Annualized Downside Deviation (DD)
 
-The `annualized_dd` function calculates the annualized downside
-deviation, compared here against
-`PerformanceAnalytics::DownsideDeviation`.
+The `annualized_dd` function calculates the annualized downside deviation, compared here against `PerformanceAnalytics::DownsideDeviation`.
 
 ``` r
 benchmark <- microbenchmark(
@@ -150,8 +127,7 @@ benchmark
 
 ### Maximum Drawdown (MDD)
 
-The `mdd` function computes the maximum drawdown, compared here against
-`PerformanceAnalytics::maxDrawdown`.
+The `mdd` function computes the maximum drawdown, compared here against `PerformanceAnalytics::maxDrawdown`.
 
 ``` r
 benchmark <- microbenchmark(
@@ -176,6 +152,4 @@ benchmark
 
 # License
 
-This package is licensed under the MIT License. You are free to use,
-modify, and distribute the package under the terms of the license. See
-the LICENSE file for more details.
+This package is licensed under the MIT License. You are free to use, modify, and distribute the package under the terms of the license. See the LICENSE file for more details.
